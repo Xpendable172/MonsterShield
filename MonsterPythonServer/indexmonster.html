@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+
+
+
+</script>
+<style>
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 24px;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+}
+
+.button:hover {background-color: #3e8e41}
+
+.speed {
+  background-color: #fdcf00; 
+  border: none;
+  color: #000000;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 24px;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+}
+
+
+
+.other1 {
+  background-color: #1596ff; 
+  border: none;
+  color: #000000;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 22px;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+}
+.other1:hover {background-color: #0f67af}
+
+.speed:hover {background-color: #b19102}
+
+.moveid {
+ /* float: left; */
+}
+
+.other2 {
+  background-color: #7d3ff1; 
+  border: none;
+  color: #000000;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 24px;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+
+}
+
+.other3 {
+  background-color: #f135e8; 
+  border: none;
+  color: #000000;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 24px;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+
+}
+
+.other4 {
+  background-color: #f32c78; 
+  border: none;
+  color: #000000;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 22px;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+}
+
+th {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.other4:hover {background-color: #971c4b}
+
+.other4sel
+{
+  background-color: #e47da5;
+}
+
+.speech {
+  background-color: #f0f0f0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 22px;
+}
+
+.interim {
+  background-color: #f5f5f5;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 22px;
+}
+
+.command {
+  background-color:lightblue;
+  font-family: monospace;
+  font-size: 22px;
+}
+
+.header {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+</style>
+</head>
+<body>
+
+<span class="header">Last Action:</span> <div id="div1" class="command">Waiting for command...</div>
+
+<p>
+<div>
+  <div class="moveid">
+    <table>
+      <th>Sequences</th>
+      <tr>
+          <td><button id="s0" class="button">0</button></td><td><button id="s8" class="button">8</button></td><td><button id="stop" class="other4">Stop!</button></td>
+      </tr>
+      <tr>
+          <td><button id="s1" class="button">1</button></td><td><button id="s9" class="button">9</button></td><td><button id="triggerson" class="other1">Triggers ON</button></td>
+      </tr>
+      <tr>
+          <td><button id="s2" class="button">2</button></td><td><button id="sa" class="button">A</button></td><td><button id="triggersoff" class="other1">Triggers OFF</button></td>
+      </tr>
+      <tr>
+        <td><button id="s3" class="button">3</button></td><td><button id="sb" class="button">B</button></td>
+      </tr>
+      <tr>
+        <td><button id="s4" class="button">4</button></td><td><button id="sc" class="button">C</button></td>
+    </tr>
+    <tr>
+        <td><button id="s5" class="button">5</button></td><td><button id="sd" class="button">D</button></td>
+    </tr>
+    <tr>
+        <td><button id="s6" class="button">6</button></td><td><button id="se" class="button">E</button></td>
+    </tr>        
+    <tr>
+        <td><button id="s7" class="button">7</button></td><td><button id="sf" class="button">F</button></td>
+    </tr>    
+
+      
+  
+  </table> 
+  </div>
+
+</div>
+ 
+</p>
+<p>
+
+
+<div>
+<h4>Speech Recognition:</h4>
+<span id="speech" class="speech"></span>
+<span id="interim" class="interim"></span><br />
+<span class="header">wit.ai:</span>
+<span id="div2" class="speech"></span>
+
+</div>
+</p>
+
+
+</body>
+
+
+<script>
+  function upgrade() {
+    alert('Please use Google Chrome for best experience');
+  }
+ 
+
+  var speech  = new webkitSpeechRecognition() || speechRecognition();
+
+  /*
+
+  var synthesis = window.speechSynthesis;
+  var utterance = new SpeechSynthesisUtterance('Hello, I am your robot.');
+  synthesis.speak(utterance);
+
+  var voice = synthesis.getVoices().filter(function(voice) {
+    return voice.lang === 'en';
+  })[0];
+*/
+  window.onload = function() {
+    if (!(window.webkitSpeechRecognition) && !(window.speechRecognition)) {
+      upgrade();
+    } else {
+      var recognizing,
+      
+      transcription = document.getElementById('speech'),
+      interim_span = document.getElementById('interim');
+
+      interim_span.style.opacity = '0.5';
+
+
+
+      function reset() {
+        recognizing = false;
+        interim_span.innerHTML = '';
+        transcription.innerHTML = '';
+        speech.start();
+      }
+
+      function doCommand(cmd) {
+        var t = cmd
+        var mypath = t
+        console.log('doCommand: ' + cmd)
+        $.ajax({
+            url: mypath, success: function(result)
+            {
+              $("#div1").html(result);
+            }
+        });
+
+      }
+
+
+
+      speech.continuous = true;
+      speech.interimResults = true;
+      speech.lang = 'en-US'; // check google web speech example source for more lanuages
+      //speech.start(); //enables recognition on default
+
+      speech.onstart = function() {
+          // When recognition begins
+          recognizing = true;
+      };
+
+      speech.onresult = function(event) {
+        // When recognition produces result
+        var interim_transcript = '';
+        var final_transcript = '';
+        var token = 'SGW2IUL4ZVBNDGBVAWAZY6G2TP25RRRJ';
+        var witpath = 'https://api.wit.ai/message';
+
+        var driveCommand = '';
+        var steerCommand = '';
+        var robotunderstood = false;
+
+        // main for loop for final and interim results
+        for (var i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            final_transcript += event.results[i][0].transcript;
+            thequery = encodeURIComponent(event.results[i][0].transcript);
+            
+            // Attempt to make an ajax call to wit.ai
+            $.ajax({url: witpath, 
+              headers: {
+                'Authorization' : `Bearer ${token}`
+              },
+              data: {
+                v:20200505,
+                q:thequery},
+              success: function(result)
+              {
+                console.log(result);
+                robot = false;
+                for (x in result.entities) {
+                  console.log(x);
+                  if (x == 'driveDirection') 
+                  {
+                    y = result.entities.driveDirection[0].value;
+                    console.log('driveDirection FOUND!');
+                    console.log(y)
+                    driveCommand = y;
+                  }
+                  else if (x == 'steerDirection')
+                  {
+                    y = result.entities.steerDirection[0].value;
+                    console.log('steerDirection FOUND!');
+                    console.log(y)
+                    steerCommand = y;
+                  }
+                  else if (x == 'robotCommand')
+                  {
+                    robot = true;
+                  }
+
+                  
+
+
+
+                }
+
+                if (robot == true)
+                {
+                  console.log("ROBOT intent given!");
+                  var understood = false;
+                  var text = "";
+                  var drive = false;
+                  if (driveCommand != '')
+                  {
+                      if (driveCommand == 'forward')
+                      {
+                        text = "going forward";
+                        doCommand("forward");
+                        understood = true;
+                        drive = true;
+                      }
+                      else if (driveCommand == 'reverse')
+                      {
+                        text = "going in reverse";
+                        doCommand("reverse");
+                        understood = true;
+                        drive = true;
+                      }
+                      else if (driveCommand == 'stop')
+                      {
+                        text = "stopping";
+                        doCommand("stop");
+                        understood = true;
+                        drive = true;
+                      }
+
+                      if (drive == true)
+                        text += " and ";
+                  }
+                  if (steerCommand != '')
+                  {
+                    if (steerCommand == 'left')
+                    {
+                      text += "turning left";
+                      doCommand("left")
+                      understood = true;
+                    }
+                    else if (steerCommand == 'right')
+                    {
+                      text += "turning right";
+                      doCommand("right")
+                      understood = true;
+                    }
+                    else if (steerCommand == 'straight')
+                    {
+                      text += "steering straight";
+                      doCommand("straight")
+                      understood = true;
+                    }
+                  }
+                  
+                  if (understood == false)
+                  {
+                    text = "I didn't understand you.";
+                  }   
+                  
+                  speechSynthesis.speak(new SpeechSynthesisUtterance(text));
+                }
+                else
+                {
+                  console.log("ROBOT command not given, ignore!");
+                }
+
+
+                //alert(result);
+                $("#div2").html(result._text);
+                //alert(JSON.parse(xhr.responseText));
+                //$("#div2").JSON.parse(result);
+              },
+              error: function(xhr, status, error) {
+                var err = JSON.parse(xhr.responseText);
+                alert(err.Message);
+              }
+            });
+
+
+          } else {
+            interim_transcript += event.results[i][0].transcript;
+          }
+        }
+        transcription.innerHTML = final_transcript;
+        interim_span.innerHTML = interim_transcript;
+      };
+
+      speech.onerror = function(event) {
+          // Either 'No-speech' or 'Network connection error'
+          console.error(event.error);
+      };
+
+      speech.onend = function() {
+          console.log("speech.onend() called.");
+          // When recognition ends
+          //reset();
+      };
+
+    }
+  };
+
+$("#speech_off").click(function(){
+  console.log("You clicked speech_off");
+  speech.stop();
+  $(this).addClass("other4sel");
+  $("#speech_on").removeClass("other4sel");
+  //$(this).css('background-color', '#971c4b');
+  //$("#speech_on").css('background-color', '#f32c78');
+});
+
+$("#speech_on").click(function(){
+  console.log("You clicked speech_on");
+  speech.start();
+  $(this).addClass("other4sel");
+  $("#speech_off").removeClass("other4sel");
+  //$("#speech_on").css('background-color', '#971c4b');
+  //$("#speech_off").css('background-color', '#f32c78');
+});
+
+  $(document).ready(function(){    
+  $("button").click(function()
+  {
+
+    var t = $(this).attr('id');
+    var mypath = t
+
+    if (t == 'speech_on')
+    {
+      //console.log("speech on");
+      //speech.continuous = true;
+      //speech.start();
+    }
+    else if (t == 'speech_off')
+    {
+      //console.log("speech off");
+      //speech.continuous = false;
+      //speech.abort();
+    }
+    else
+    {
+      $.ajax(
+      {
+        url: mypath, success: function(result)
+        {
+          $("#div1").html(result);
+        }
+      });      
+    }
+
+
+
+
+
+  });
+});
+
+
+
+</script>
+
+
+
+</html>
