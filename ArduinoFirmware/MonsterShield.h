@@ -1,14 +1,9 @@
 /*
-  MonsterShield Firmware Library V 1.5.0 {BETA}
+  MonsterShield Firmware Library V 1.5.1 {BETA}
   //////////////////////////////////////////////////////////////// 
-  Released:   September 4, 2013
+  Released:   October 25, 2021
   Author:     Jason LeSueur Tatum
-  
-  HauntSoft 
-  http://www.hauntsoft.com
-  P.O. Box 1475
-  Arlington Heights, IL 60006
-  
+   
   This library is intended to be used with the MonsterShield line of
   products produced by HauntSoft and is provided AS-IS.  This
   code has only been tested with Arduino UNO REV 3 microcontrollers,
@@ -24,6 +19,9 @@
   Tutorials and example solutions using this library
   will be made available over time on http://www.hauntsoft.com
   
+  Revisions:
+  1.5.1 - JTATUM 10/25/2021 - Added support for disabling / enabling triggers via serial port.  Serial command is "@I" and "@i" (uppercase disables, lowercase enables).
+  1.5.0 - Open Source Release (2013)
   
   Arduino UNO R3 Pin Usage
   ===================================
