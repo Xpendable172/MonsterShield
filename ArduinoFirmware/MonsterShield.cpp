@@ -60,6 +60,7 @@ MonsterShield::MonsterShield()
     slotEnabled = 0xFF;
     slotCount = 15;
     trackMask = 0xFF;
+    ignoreTriggers = false; // JTATUM 10/24/2021 Always default to triggers ON in case of power failure.  Setting this to true will cause MonsterShield to ignore any playback triggers not sent via serial bus.
 }
 
 
@@ -1420,9 +1421,9 @@ void MonsterShield::eepromReadSettings()
   for (int i=0; i < 4; i++)
   {
     triggerThreshold[i] = (pagebuffer[pos] << 8) + pagebuffer[pos+1];
-    if (triggerThreshold[i] < 700 || triggerThreshold[i] > 1023)
+    if (triggerThreshold[i] < 200 || triggerThreshold[i] > 1023)
     {
-      triggerThreshold[i] = 700;
+      triggerThreshold[i] = 200;
     }
     pos += 2;
     
@@ -1844,7 +1845,7 @@ void MonsterShield::performFactoryReset()
   { 
     triggerLastStateChange[i] = 0;
     triggerSensitivity[i] = 50;
-    triggerThreshold[i] = 950;
+    triggerThreshold[i] = 250;   //Jason Tatum - Changed on 9/29/2021 from 950 to 250 to fix a problem with my EEPROM chip.
     triggerResetState[i] = false;
     triggerCooldown[i]=15;
     triggerAfterResetOnly[i] = true;
@@ -2307,6 +2308,16 @@ uint8_t MonsterShield::processSerialPort()
                 setAnimationSelectMode(mode);
               }
               break;      
+
+            case 'i': // JTATUM 10/24/2021 Turn on triggers (same as on boot up)
+              ignoreTriggers = false;
+              Serial.println("ignoreTriggers=FALSE");
+              break;
+
+            case 'I': // JTATUM 10/24/2021 Turn on triggers (same as on boot up)
+              ignoreTriggers = true;
+              Serial.println("ignoreTriggers=TRUE");
+              break;
      
             case 'Y':  // Request slot count
               Serial.print("$SLOTCNT=");

@@ -269,6 +269,8 @@ public:
   void mp3Resume();                   // Resumes the current MP3 track.
   void mp3Volume(uint8_t index);      // Sets the volume of the MP3 player.  Valid values are 00 (lowest) to 31 (highest).
  
+
+  bool ignoreTriggers;    // Added 10/24/2021 by JTATUM to allow for toggling the sensors/triggers on/off remotely, allowing to shutdown triggers for the day without having to poweroff the controller.
   
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // Animation Playback
@@ -545,6 +547,7 @@ private:
   uint8_t memorySlotCount1;                    // Indicates how many slots exist on EEPROM 1.  Was previously calculated by calculateEventsPerSlot().
   uint8_t memorySlotCount2;                    // Indicates how many slots exist on EEPROM 2.  Was previously calculated by calculateEventsPerSlot().
 
+  
 };
 
 

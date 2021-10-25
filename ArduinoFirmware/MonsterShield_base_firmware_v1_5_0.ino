@@ -46,7 +46,7 @@ void setup()
 void loop()
 {
   
-  boolean wasTriggered = monster.isTriggerSensed(0);
+  boolean wasTriggered = (monster.isTriggerSensed(0) && !monster.ignoreTriggers); // JTATUM 10/24/2021 Added ignoreTriggers to disable trigging if we've disabled the triggers.  Manual triggering still works. 
   boolean modeButton = monster.inputButtonPress(0);
   boolean triggeredFromAmbient = false;
   
@@ -165,8 +165,3 @@ void loop()
   
   
 }
-
-
-
-
-
